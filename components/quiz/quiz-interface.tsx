@@ -11,15 +11,33 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { QuizTimer } from "./quiz-timer"
 import { QuestionCard } from "./question-card"
 import { QuizSubmissionModal } from "./quiz-submission-modal"
-import { ChevronLeft, ChevronRight, Flag, AlertTriangle, Maximize, X, ArrowLeft } from "lucide-react"
+import { ChevronLeft, ChevronRight, Flag, AlertTriangle, Maximize, X, ArrowLeft, Code2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
 interface Question {
   id: string
+  type: "mcq" | "text" | "code"
   question: string
-  options: string[]
-  correctAnswer: number
+  options?: string[]
+  placeholder?: string
+  maxLength?: number
+  description?: string
+  examples?: Array<{
+    input: string
+    output: string
+    explanation?: string
+  }>
+  constraints?: string[]
+  supportedLanguages?: string[]
+  defaultLanguage?: string
+  starterCode?: Record<string, string>
+  testCases?: Array<{
+    input: string
+    expectedOutput: string
+    isHidden?: boolean
+  }>
+  correctAnswer?: number
   explanation?: string
   image?: string
 }
@@ -28,62 +46,140 @@ interface QuizInterfaceProps {
   quizId: string
 }
 
-// Mock quiz data
-const mockQuiz = {
-  id: "1",
-  title: "World History Basics",
-  description: "Test your knowledge of major historical events and figures.",
-  duration: 15,
-  questions: [
-    {
-      id: "1",
-      question: "Which ancient wonder of the world was located in Alexandria?",
-      options: [
-        "The Hanging Gardens",
-        "The Lighthouse of Alexandria",
-        "The Colossus of Rhodes",
-        "The Temple of Artemis",
-      ],
-      correctAnswer: 1,
-      explanation:
-        "The Lighthouse of Alexandria was one of the Seven Wonders of the Ancient World and served as a landmark for sailors.",
-    },
-    {
-      id: "2",
-      question: "In which year did World War II end?",
-      options: ["1944", "1945", "1946", "1947"],
-      correctAnswer: 1,
-      explanation: "World War II ended in 1945 with the surrender of Japan in September.",
-    },
-    {
-      id: "3",
-      question: "Who was the first person to walk on the moon?",
-      options: ["Buzz Aldrin", "Neil Armstrong", "John Glenn", "Alan Shepard"],
-      correctAnswer: 1,
-      explanation:
-        "Neil Armstrong was the first person to walk on the moon during the Apollo 11 mission on July 20, 1969.",
-    },
-    {
-      id: "4",
-      question: "Which empire was ruled by Julius Caesar?",
-      options: ["Greek Empire", "Roman Empire", "Persian Empire", "Byzantine Empire"],
-      correctAnswer: 1,
-      explanation: "Julius Caesar was a Roman general and statesman who played a critical role in the Roman Republic.",
-    },
-    {
-      id: "5",
-      question: "The Berlin Wall fell in which year?",
-      options: ["1987", "1988", "1989", "1990"],
-      correctAnswer: 2,
-      explanation: "The Berlin Wall fell on November 9, 1989, marking the beginning of German reunification.",
-    },
-  ],
+// Mock quiz data with different question types
+const mockQuizzes = {
+  "1": {
+    id: "1",
+    title: "World History Basics",
+    description: "Test your knowledge of major historical events and figures.",
+    duration: 15,
+    type: "general",
+    questions: [
+      {
+        id: "1",
+        type: "mcq" as const,
+        question: "Which ancient wonder of the world was located in Alexandria?",
+        options: [
+          "The Hanging Gardens",
+          "The Lighthouse of Alexandria",
+          "The Colossus of Rhodes",
+          "The Temple of Artemis",
+        ],
+        correctAnswer: 1,
+        explanation:
+          "The Lighthouse of Alexandria was one of the Seven Wonders of the Ancient World and served as a landmark for sailors.",
+      },
+      {
+        id: "2",
+        type: "text" as const,
+        question: "Explain the significance of the Berlin Wall and its impact on Germany.",
+        placeholder: "Describe the historical importance, construction, and fall of the Berlin Wall...",
+        maxLength: 500,
+        explanation: "The Berlin Wall was a symbol of the Cold War division between East and West Germany.",
+      },
+      {
+        id: "3",
+        type: "mcq" as const,
+        question: "Who was the first person to walk on the moon?",
+        options: ["Buzz Aldrin", "Neil Armstrong", "John Glenn", "Alan Shepard"],
+        correctAnswer: 1,
+        explanation:
+          "Neil Armstrong was the first person to walk on the moon during the Apollo 11 mission on July 20, 1969.",
+      },
+    ],
+  },
+  programming: {
+    id: "programming",
+    title: "Programming Fundamentals",
+    description: "Test your coding skills with algorithmic challenges.",
+    duration: 60,
+    type: "programming",
+    questions: [
+      {
+        id: "1",
+        type: "code" as const,
+        question: "Two Sum Problem",
+        description:
+          "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice.",
+        examples: [
+          {
+            input: "nums = [2,7,11,15], target = 9",
+            output: "[0,1]",
+            explanation: "Because nums[0] + nums[1] == 9, we return [0, 1].",
+          },
+          {
+            input: "nums = [3,2,4], target = 6",
+            output: "[1,2]",
+          },
+        ],
+        constraints: [
+          "2 ≤ nums.length ≤ 10⁴",
+          "-10⁹ ≤ nums[i] ≤ 10⁹",
+          "-10⁹ ≤ target ≤ 10⁹",
+          "Only one valid answer exists.",
+        ],
+        supportedLanguages: ["javascript", "python", "java", "cpp"],
+        defaultLanguage: "javascript",
+        starterCode: {
+          javascript: `function twoSum(nums, target) {
+    // Your code here
+    
+}`,
+          python: `def two_sum(nums, target):
+    # Your code here
+    pass`,
+          java: `public int[] twoSum(int[] nums, int target) {
+    // Your code here
+    
+}`,
+          cpp: `vector<int> twoSum(vector<int>& nums, int target) {
+    // Your code here
+    
+}`,
+        },
+        testCases: [
+          {
+            input: "[2,7,11,15], 9",
+            expectedOutput: "[0,1]",
+          },
+          {
+            input: "[3,2,4], 6",
+            expectedOutput: "[1,2]",
+          },
+          {
+            input: "[3,3], 6",
+            expectedOutput: "[0,1]",
+            isHidden: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        type: "mcq" as const,
+        question: "What is the time complexity of binary search?",
+        options: ["O(n)", "O(log n)", "O(n log n)", "O(n²)"],
+        correctAnswer: 1,
+        explanation:
+          "Binary search has O(log n) time complexity because it eliminates half of the search space in each iteration.",
+      },
+      {
+        id: "3",
+        type: "text" as const,
+        question: "Explain the difference between a stack and a queue data structure.",
+        placeholder: "Describe the key differences, operations, and use cases...",
+        maxLength: 300,
+        explanation:
+          "Stack follows LIFO (Last In, First Out) principle while Queue follows FIFO (First In, First Out) principle.",
+      },
+    ],
+  },
 }
 
 export function QuizInterface({ quizId }: QuizInterfaceProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<Record<string, number>>({})
-  const [timeLeft, setTimeLeft] = useState(mockQuiz.duration * 60)
+  const [answers, setAnswers] = useState<Record<string, number | string>>({})
+  const [selectedLanguages, setSelectedLanguages] = useState<Record<string, string>>({})
+  const [timeLeft, setTimeLeft] = useState(0)
   const [showSubmissionModal, setShowSubmissionModal] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -95,6 +191,13 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
 
   const { toast } = useToast()
   const maxMalpracticeAttempts = 3
+
+  // Get quiz data
+  const mockQuiz = mockQuizzes[quizId as keyof typeof mockQuizzes] || mockQuizzes["1"]
+
+  useEffect(() => {
+    setTimeLeft(mockQuiz.duration * 60)
+  }, [mockQuiz.duration])
 
   const progress = ((currentQuestion + 1) / mockQuiz.questions.length) * 100
 
@@ -227,6 +330,27 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
     }))
   }
 
+  const handleTextAnswerChange = (questionId: string, answer: string) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: answer,
+    }))
+  }
+
+  const handleCodeChange = (questionId: string, code: string) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionId]: code,
+    }))
+  }
+
+  const handleLanguageChange = (questionId: string, language: string) => {
+    setSelectedLanguages((prev) => ({
+      ...prev,
+      [questionId]: language,
+    }))
+  }
+
   const handleNext = () => {
     if (currentQuestion < mockQuiz.questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1)
@@ -283,7 +407,10 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
                   </Link>
                 </Button>
               </div>
-              <CardTitle className="text-3xl mb-4">{mockQuiz.title}</CardTitle>
+              <div className="flex items-center justify-center space-x-2 mb-4">
+                {mockQuiz.type === "programming" && <Code2 className="h-6 w-6 text-primary" />}
+                <CardTitle className="text-3xl">{mockQuiz.title}</CardTitle>
+              </div>
               <p className="text-muted-foreground text-lg">{mockQuiz.description}</p>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -311,6 +438,9 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
                     <li>• Switching tabs or exiting fullscreen will be flagged as malpractice</li>
                     <li>• You have maximum 3 warnings before the quiz is terminated</li>
                     <li>• Right-click and developer tools are disabled</li>
+                    {mockQuiz.type === "programming" && (
+                      <li>• For coding questions, make sure your solution passes all test cases</li>
+                    )}
                     <li>• Make sure you have a stable internet connection</li>
                   </ul>
                 </AlertDescription>
@@ -378,6 +508,12 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
                 Question {currentQuestion + 1} of {mockQuiz.questions.length}
               </Badge>
               <Badge variant="secondary">{answeredQuestions} answered</Badge>
+              {mockQuiz.type === "programming" && (
+                <Badge variant="outline" className="flex items-center space-x-1">
+                  <Code2 className="h-3 w-3" />
+                  <span>Programming</span>
+                </Badge>
+              )}
               {malpracticeCount > 0 && (
                 <Badge variant="destructive">
                   Warnings: {malpracticeCount}/{maxMalpracticeAttempts}
@@ -412,7 +548,18 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
           <QuestionCard
             question={currentQuestionData}
             selectedAnswer={answers[currentQuestionData.id]}
+            selectedLanguage={selectedLanguages[currentQuestionData.id]}
             onAnswerSelect={(answerIndex) => handleAnswerSelect(currentQuestionData.id, answerIndex)}
+            onTextAnswerChange={(answer) => handleTextAnswerChange(currentQuestionData.id, answer)}
+            onCodeChange={(code) => handleCodeChange(currentQuestionData.id, code)}
+            onLanguageChange={(language) => handleLanguageChange(currentQuestionData.id, language)}
+            onCodeSubmit={() => {
+              // Handle code submission logic here
+              toast({
+                title: "Code Submitted",
+                description: "Your solution has been submitted for this question.",
+              })
+            }}
           />
         </motion.div>
       </div>
@@ -427,19 +574,19 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
             </Button>
 
             <div className="flex items-center space-x-2">
-              {mockQuiz.questions.map((_, index) => (
+              {mockQuiz.questions.map((question, index) => (
                 <Button
                   key={index}
                   variant={index === currentQuestion ? "default" : "outline"}
                   size="sm"
                   className={`w-10 h-10 ${
-                    answers[mockQuiz.questions[index].id] !== undefined
+                    answers[question.id] !== undefined
                       ? "bg-green-100 border-green-300 text-green-700 hover:bg-green-200 dark:bg-green-900 dark:border-green-700 dark:text-green-300"
                       : ""
                   }`}
                   onClick={() => setCurrentQuestion(index)}
                 >
-                  {index + 1}
+                  {question.type === "code" ? <Code2 className="h-3 w-3" /> : index + 1}
                 </Button>
               ))}
             </div>
