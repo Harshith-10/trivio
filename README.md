@@ -37,42 +37,42 @@
 ### Installation
 
 1. **Clone the repository**
-   ```bash
+   \`\`\`bash
    git clone https://github.com/yourusername/trivio-quiz.git
    cd trivio-quiz
-   ```
+   \`\`\`
 
 2. **Install dependencies**
-   ```bash
+   \`\`\`bash
    npm install
    # or
    yarn install
-   ```
+   \`\`\`
 
 3. **Set up environment variables**
-   ```bash
+   \`\`\`bash
    cp .env.example .env.local
-   ```
+   \`\`\`
    
    Configure your `.env.local`:
-   ```env
+   \`\`\`env
    DATABASE_URL="your_database_connection_string"
    NEXTAUTH_SECRET="your_nextauth_secret"
    NEXTAUTH_URL="http://localhost:3000"
    GOOGLE_CLIENT_ID="your_google_oauth_id"
    GOOGLE_CLIENT_SECRET="your_google_oauth_secret"
-   ```
+   \`\`\`
 
 4. **Set up the database**
-   ```bash
+   \`\`\`bash
    npm run db:push
    npm run db:seed
-   ```
+   \`\`\`
 
 5. **Start the development server**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 6. **Open your browser** and navigate to `http://localhost:3000`
 
@@ -98,7 +98,7 @@
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 trivio-quiz/
 ├── 📁 app/                    # Next.js App Router
 │   ├── 📁 (auth)/            # Authentication pages
@@ -116,12 +116,12 @@ trivio-quiz/
 ├── 📁 prisma/               # Database schema & migrations
 ├── 📁 public/               # Static assets
 └── 📁 types/                # TypeScript type definitions
-```
+\`\`\`
 
 ## 🎮 Usage Examples
 
 ### Creating a Quiz
-```typescript
+\`\`\`typescript
 import { createQuiz } from '@/lib/quiz'
 
 const newQuiz = await createQuiz({
@@ -138,23 +138,23 @@ const newQuiz = await createQuiz({
     }
   ]
 })
-```
+\`\`\`
 
 ### Real-time Multiplayer
-```typescript
+\`\`\`typescript
 import { joinMultiplayerGame } from '@/lib/multiplayer'
 
 const gameSession = await joinMultiplayerGame({
   gameId: "game_123",
   userId: "user_456"
 })
-```
+\`\`\`
 
 ## 🛠️ Development
 
 ### Available Scripts
 
-```bash
+\`\`\`bash
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server
@@ -163,7 +163,7 @@ npm run type-check   # Run TypeScript compiler
 npm run db:push      # Push schema changes to database
 npm run db:seed      # Seed database with sample data
 npm run test         # Run test suite
-```
+\`\`\`
 
 ### Code Quality
 
