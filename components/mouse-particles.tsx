@@ -19,11 +19,6 @@ export function MouseParticles() {
     let lastMouseY = 0
     let mouseMoveThrottle = false
 
-    // Create cursor shadow element
-    const cursorShadow = document.createElement("div")
-    cursorShadow.className = "cursor-shadow"
-    document.body.appendChild(cursorShadow)
-
     const createParticle = (x: number, y: number) => {
       const particle = document.createElement("div")
       particle.className = "particle"
@@ -66,11 +61,6 @@ export function MouseParticles() {
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e
 
-      // Update cursor shadow position (slightly offset to create shadow effect)
-      cursorShadow.style.left = `${clientX + 2}px`
-      cursorShadow.style.top = `${clientY + 2}px`
-      cursorShadow.classList.add("visible")
-
       if (mouseMoveThrottle) return
 
       mouseMoveThrottle = true
@@ -98,31 +88,12 @@ export function MouseParticles() {
       }
     }
 
-    const handleMouseLeave = () => {
-      // Hide cursor shadow when mouse leaves the window
-      cursorShadow.classList.remove("visible")
-    }
-
-    const handleMouseEnter = () => {
-      // Show cursor shadow when mouse enters the window
-      cursorShadow.classList.add("visible")
-    }
-
     // Add event listeners
     document.addEventListener("mousemove", handleMouseMove)
-    document.addEventListener("mouseleave", handleMouseLeave)
-    document.addEventListener("mouseenter", handleMouseEnter)
 
     // Cleanup function
     return () => {
       document.removeEventListener("mousemove", handleMouseMove)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-      document.removeEventListener("mouseenter", handleMouseEnter)
-
-      // Remove cursor shadow
-      if (cursorShadow.parentNode) {
-        cursorShadow.parentNode.removeChild(cursorShadow)
-      }
 
       // Clean up any remaining particles
       particles.forEach((particle) => {

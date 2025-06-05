@@ -118,26 +118,4 @@
       transform: scale(0) translateY(20px);
     }
   }
-
-  /* Mouse Cursor Shadow */
-  .cursor-shadow {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: transparent; /* radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 70%, transparent 100%); */
-    transform: translate(-50%, -50%);
-    transition: opacity 0.2s ease;
-    opacity: 0;
-  }
-
-  .dark .cursor-shadow {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 70%, transparent 100%);
-  }
-
-  .cursor-shadow.visible {
-    opacity: 1;
-  }
 }
