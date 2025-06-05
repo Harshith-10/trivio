@@ -13,7 +13,6 @@
     "@codemirror/lang-java": "latest",
     "@codemirror/lang-javascript": "latest",
     "@codemirror/lang-python": "latest",
-    "@codemirror/theme-one-dark": "latest",
     "@codemirror/view": "latest",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",

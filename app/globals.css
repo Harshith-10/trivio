@@ -24,6 +24,10 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 194 100% 22%;
     --radius: 0.5rem;
+    --editor-background: 0 0% 100%;
+    --editor-foreground: 222.2 84% 4.9%;
+    --editor-selection: 194 100% 22% / 0.2;
+    --editor-cursor: 194 100% 22%;
   }
 
   .dark {
@@ -46,6 +50,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 194 100% 22%;
+    --editor-background: 222.2 84% 4.9%;
+    --editor-foreground: 210 40% 98%;
+    --editor-selection: 194 100% 22% / 0.3;
+    --editor-cursor: 194 100% 22%;
   }
 }
 
