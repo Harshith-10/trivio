@@ -239,7 +239,7 @@ export function CodeQuestion({
         {/* Editor */}
         <div className="lg:col-span-2">
           <Card>
-            <CardHeader>
+            <CardHeader className='p-4'>
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">Code Editor</h3>
                 <div className="flex items-center space-x-2">
