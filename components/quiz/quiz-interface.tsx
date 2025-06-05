@@ -499,7 +499,7 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
       </Dialog>
 
       {/* Quiz Header */}
-      <div className="border-b bg-background/95 backdrop-blur">
+      <div className="sticky top-0 border-b bg-background/95 backdrop-blur">
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
