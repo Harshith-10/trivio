@@ -28,7 +28,7 @@ const createClickParticles = (x: number, y: number) => {
     const angle = baseAngle + (Math.random() - 0.5) * 0.5
 
     // Random velocity with some variation
-    const velocity = 10 // Math.random() * 20 + 10 // 10-30px travel distance
+    const velocity = 25 // Math.random() * 20 + 10 // 10-30px travel distance
     const dx = Math.cos(angle) * velocity
     const dy = Math.sin(angle) * velocity
 
