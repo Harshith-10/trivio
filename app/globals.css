@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 194 100% 22%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 194 100% 22%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 194 100% 22%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 194 100% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+      sans-serif;
+  }
+}
+
+@layer components {
+  .trivio-gradient {
+    background: linear-gradient(135deg, #001219 0%, #005f73 25%, #0a9396 50%, #94d2bd 75%, #e9d8a6 100%);
+  }
+
+  .trivio-card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:shadow-trivio-500/20 dark:hover:shadow-trivio-400/20;
+  }
+
+  .trivio-button {
+    @apply bg-gradient-to-r from-ocean-600 to-trivio-600 hover:from-ocean-700 hover:to-trivio-700 font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+    color: white !important;
+  }
+
+  .quiz-button {
+    @apply bg-gradient-to-r from-ocean-600 to-trivio-600 hover:from-ocean-700 hover:to-trivio-700 font-medium py-2 px-4 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+    color: white !important;
+  }
+
+  .trivio-button-secondary {
+    @apply bg-gradient-to-r from-trivio-100 to-ocean-100 hover:from-trivio-200 hover:to-ocean-200 text-trivio-800 font-medium py-2 px-4 rounded-lg transition-all duration-200 border border-trivio-300 dark:from-trivio-800 dark:to-ocean-800 dark:hover:from-trivio-700 dark:hover:to-ocean-700 dark:text-trivio-200 dark:border-trivio-600;
+  }
+
+  .grid-pattern {
+    background-image: radial-gradient(circle, rgba(20, 184, 166, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .dark .grid-pattern {
+    background-image: radial-gradient(circle, rgba(20, 184, 166, 0.2) 1px, transparent 1px);
+  }
+}
