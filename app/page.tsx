@@ -62,7 +62,7 @@ function LandingHeader() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-ocean-500 to-trivio-500">
             <BookOpen className="h-5 w-5 text-white" />
           </div>
-          <span className="text-xl font-medium bg-gradient-to-r from-ocean-600 to-trivio-600 bg-clip-text text-transparent">
+          <span className="text-xl font-semibold bg-gradient-to-r from-ocean-600 to-trivio-600 bg-clip-text text-transparent">
             Trivio
           </span>
         </Link>
