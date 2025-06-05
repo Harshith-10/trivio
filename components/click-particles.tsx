@@ -28,7 +28,7 @@ const createClickParticles = (x: number, y: number) => {
     const angle = baseAngle + (Math.random() - 0.5) * 0.5
 
     // Random velocity with some variation
-    const velocity = Math.random() * 10 + 20 // 40-100px travel distance
+    const velocity = Math.random() * 15 + 15 // 15-30px travel distance
     const dx = Math.cos(angle) * velocity
     const dy = Math.sin(angle) * velocity
 
@@ -41,7 +41,7 @@ const createClickParticles = (x: number, y: number) => {
     particle.style.top = `${y}px`
 
     // Add some randomness to size and animation duration
-    const size = Math.random() * 3 + 2 // 2-5px
+    const size = Math.random() * 2 + 1 // 1-3px
     const duration = Math.random() * 200 + 600 // 600-800ms
 
     particle.style.width = `${size}px`
