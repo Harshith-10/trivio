@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { EditorView, basicSetup } from "codemirror"
+import { basicSetup } from "codemirror"
+import { EditorView } from "@codemirror/view"
 import { javascript } from "@codemirror/lang-javascript"
 import { python } from "@codemirror/lang-python"
 import { java } from "@codemirror/lang-java"
