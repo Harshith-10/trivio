@@ -139,7 +139,7 @@
       opacity: 1;
     }
     50% {
-      transform: translate(calc(var(--dx) * 0.7), calc(var(--dy) * 0.7)) scale(1);
+      transform: translate(calc(var(--dx) * 0.7), calc(var(--dy) * 0.7)) scale(1.2);
       opacity: 0.8;
     }
     100% {
