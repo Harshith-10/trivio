@@ -63,10 +63,10 @@ export function MouseParticles() {
 
       if (mouseMoveThrottle) return
 
-      mouseMoveThrottle = true
+      /* mouseMoveThrottle = true
       setTimeout(() => {
         mouseMoveThrottle = false
-      }, 25) // Throttle to every 25ms
+      }, 25) // Throttle to every 25ms */
 
       // Only create particles if mouse has moved significantly
       const distance = Math.sqrt(Math.pow(clientX - lastMouseX, 2) + Math.pow(clientY - lastMouseY, 2))
