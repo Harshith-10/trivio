@@ -565,7 +565,7 @@ export function QuizInterface({ quizId }: QuizInterfaceProps) {
       </div>
 
       {/* Navigation */}
-      <div className="border-t bg-background/95 backdrop-blur">
+      <div className="sticky bottom-0 z-50 border-t bg-background/95 backdrop-blur">
         <div className="container py-4">
           <div className="flex items-center justify-between">
             <Button variant="outline" onClick={handlePrevious} disabled={currentQuestion === 0}>
