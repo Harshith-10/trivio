@@ -68,14 +68,14 @@ const createClickParticles = (x: number, y: number) => {
     // Remove particle after animation
     setTimeout(() => {
       if (particle.parentNode) {
-        particle.parentNode.removeChild(particle.element)
+        particle.parentNode.removeChild(particle)
       }
       particles = particles.filter((p) => p.id !== particleObj.id)
     }, duration + delay)
   }
 }
 
-const ClickParticles = () => {
+export const ClickParticles = () => {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       createClickParticles(e.clientX, e.clientY)
@@ -88,7 +88,5 @@ const ClickParticles = () => {
     }
   }, [])
 
-  return <></>
+  return null
 }
-
-export default ClickParticles

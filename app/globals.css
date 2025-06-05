@@ -98,51 +98,23 @@ body {
   position: fixed;
   pointer-events: none;
   z-index: 9999;
-  width: 4px;
-  height: 4px;
   border-radius: 50%;
-  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 50%, transparent 100%);
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
+  box-shadow: 0 0 6px hsl(var(--primary) / 0.6);
   animation: clickParticleExplode ease-out forwards;
 }
 
 @keyframes clickParticleExplode {
   0% {
+    transform: translate(0, 0) scale(0);
     opacity: 1;
-    transform: scale(0) translate(0, 0);
-    box-shadow: 0 0 4px hsl(var(--primary) / 0.6);
   }
-  20% {
-    opacity: 1;
-    transform: scale(1.2) translate(var(--dx, 0), var(--dy, 0));
-    box-shadow: 0 0 8px hsl(var(--primary) / 0.4);
+  50% {
+    transform: translate(calc(var(--dx) * 0.7), calc(var(--dy) * 0.7)) scale(1.2);
+    opacity: 0.8;
   }
   100% {
+    transform: translate(var(--dx), var(--dy)) scale(0);
     opacity: 0;
-    transform: scale(0.3) translate(calc(var(--dx, 0) * 3), calc(var(--dy, 0) * 3));
-    box-shadow: 0 0 2px hsl(var(--primary) / 0.2);
-  }
-}
-
-/* Dark theme variations */
-.dark .click-particle {
-  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 50%, transparent 100%);
-  box-shadow: 0 0 6px hsl(var(--primary) / 0.3);
-}
-
-@keyframes clickParticleExplode {
-  0% {
-    opacity: 1;
-    transform: scale(0) translate(0, 0);
-    box-shadow: 0 0 4px hsl(var(--primary) / 0.6);
-  }
-  15% {
-    opacity: 1;
-    transform: scale(1.5) translate(calc(var(--dx, 20px)), calc(var(--dy, 20px)));
-    box-shadow: 0 0 12px hsl(var(--primary) / 0.5);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.2) translate(calc(var(--dx, 20px) * 4), calc(var(--dy, 20px) * 4));
-    box-shadow: 0 0 2px hsl(var(--primary) / 0.1);
   }
 }
