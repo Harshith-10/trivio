@@ -1,7 +1,6 @@
 "use client"
 
 import { Label } from "@/components/ui/label"
-
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,8 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { Play, CheckCircle, XCircle, Clock, Code2 } from "lucide-react"
+import { Play, CheckCircle, XCircle, Clock, Code2, AlertTriangle } from "lucide-react"
 import { CodeEditor } from "@/components/quiz/code-editor"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface CodeQuestionProps {
   question: {
@@ -40,6 +40,15 @@ interface CodeQuestionProps {
   onSubmit: () => void
 }
 
+interface TestResult {
+  passed: boolean
+  input: string
+  expectedOutput: string
+  actualOutput: string
+  executionTime?: number
+  error?: string
+}
+
 export function CodeQuestion({
   question,
   code,
@@ -49,35 +58,114 @@ export function CodeQuestion({
   onSubmit,
 }: CodeQuestionProps) {
   const [isRunning, setIsRunning] = useState(false)
-  const [testResults, setTestResults] = useState<Array<{
-    passed: boolean
-    input: string
-    expectedOutput: string
-    actualOutput: string
-    executionTime?: number
-  }> | null>(null)
+  const [testResults, setTestResults] = useState<TestResult[] | null>(null)
+  const [executionError, setExecutionError] = useState<string | null>(null)
 
   const currentLanguage = language || question.defaultLanguage
   const currentCode = code || question.starterCode[currentLanguage] || ""
 
+  const executeJavaScript = (code: string, input: string): { result: string; executionTime: number } => {
+    // Create a safe execution environment
+    const startTime = performance.now()
+    let result = ""
+
+    try {
+      // Parse input (assuming JSON format for simplicity)
+      const parsedInput = JSON.parse(input)
+
+      // Create a function from the code
+      // We wrap the code in a function that takes the input as an argument
+      const userFn = new Function(
+        "input",
+        `
+        ${code}
+        
+        // Assuming the last function in the code is the solution
+        // This is a simplification - in a real app, you'd have a more robust approach
+        const functionNames = Object.keys(this).filter(key => 
+          typeof this[key] === 'function' && 
+          key !== 'userFn' && 
+          !['eval', 'parseInt', 'parseFloat'].includes(key)
+        );
+        
+        const lastFunction = functionNames[functionNames.length - 1];
+        if (lastFunction) {
+          return this[lastFunction](...input);
+        } else {
+          throw new Error('No function found in your code');
+        }
+      `,
+      )
+
+      // Execute the function with the input
+      result = JSON.stringify(userFn(parsedInput))
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Execution error: ${error.message}`)
+      } else {
+        throw new Error("Unknown execution error")
+      }
+    }
+
+    const executionTime = Math.round(performance.now() - startTime)
+    return { result, executionTime }
+  }
+
   const handleRun = async () => {
     setIsRunning(true)
-    // Simulate code execution
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setExecutionError(null)
 
-    // Mock test results
-    const mockResults = question.testCases
-      .filter((tc) => !tc.isHidden)
-      .map((testCase, index) => ({
-        passed: Math.random() > 0.3, // 70% pass rate for demo
-        input: testCase.input,
-        expectedOutput: testCase.expectedOutput,
-        actualOutput: Math.random() > 0.3 ? testCase.expectedOutput : "Wrong output",
-        executionTime: Math.floor(Math.random() * 100) + 10,
-      }))
+    try {
+      if (currentLanguage.toLowerCase() === "javascript") {
+        // For JavaScript, we can actually execute the code
+        const results = question.testCases
+          .filter((tc) => !tc.isHidden)
+          .map((testCase) => {
+            try {
+              const { result, executionTime } = executeJavaScript(currentCode, testCase.input)
+              const passed = result === testCase.expectedOutput
 
-    setTestResults(mockResults)
-    setIsRunning(false)
+              return {
+                passed,
+                input: testCase.input,
+                expectedOutput: testCase.expectedOutput,
+                actualOutput: result,
+                executionTime,
+              }
+            } catch (error) {
+              return {
+                passed: false,
+                input: testCase.input,
+                expectedOutput: testCase.expectedOutput,
+                actualOutput: "Error",
+                error: error instanceof Error ? error.message : "Unknown error",
+              }
+            }
+          })
+
+        setTestResults(results)
+      } else {
+        // For other languages, simulate execution
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+
+        // Mock test results for non-JavaScript languages
+        const mockResults = question.testCases
+          .filter((tc) => !tc.isHidden)
+          .map((testCase) => ({
+            passed: Math.random() > 0.3,
+            input: testCase.input,
+            expectedOutput: testCase.expectedOutput,
+            actualOutput: Math.random() > 0.3 ? testCase.expectedOutput : "Wrong output",
+            executionTime: Math.floor(Math.random() * 100) + 10,
+          }))
+
+        setTestResults(mockResults)
+      }
+    } catch (error) {
+      setExecutionError(error instanceof Error ? error.message : "Unknown error occurred during execution")
+    } finally {
+      setIsRunning(false)
+    }
   }
 
   const passedTests = testResults?.filter((r) => r.passed).length || 0
@@ -187,6 +275,14 @@ export function CodeQuestion({
               <h3 className="text-lg font-semibold">Test Results</h3>
             </CardHeader>
             <CardContent>
+              {executionError && (
+                <Alert variant="destructive" className="mb-4">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Execution Error</AlertTitle>
+                  <AlertDescription className="font-mono text-xs">{executionError}</AlertDescription>
+                </Alert>
+              )}
+
               {!testResults ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <Code2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -249,6 +345,14 @@ export function CodeQuestion({
                                 <span className="text-muted-foreground">Got:</span>
                                 <pre className="mt-1 p-2 bg-muted rounded text-xs font-mono">{result.actualOutput}</pre>
                               </div>
+                              {result.error && (
+                                <div>
+                                  <span className="text-muted-foreground">Error:</span>
+                                  <pre className="mt-1 p-2 bg-red-50 dark:bg-red-950 rounded text-xs font-mono text-red-600">
+                                    {result.error}
+                                  </pre>
+                                </div>
+                              )}
                             </>
                           )}
                         </div>
