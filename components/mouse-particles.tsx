@@ -72,8 +72,8 @@ export function MouseParticles() {
       const distance = Math.sqrt(Math.pow(clientX - lastMouseX, 2) + Math.pow(clientY - lastMouseY, 2))
 
       if (distance > 10) {
-        // Create 1-2 particles
-        const particleCount = Math.floor(Math.random() * 2) + 1
+        // Create 1-3 particles
+        const particleCount = Math.floor(Math.random() * 3) + 1
 
         for (let i = 0; i < particleCount; i++) {
           // Add some randomness to position
