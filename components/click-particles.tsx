@@ -75,7 +75,7 @@ const createClickParticles = (x: number, y: number) => {
   }
 }
 
-const ClickParticles = () => {
+export const ClickParticles = () => {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       createClickParticles(e.clientX, e.clientY)
