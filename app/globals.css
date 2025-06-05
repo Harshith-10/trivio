@@ -127,7 +127,7 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 70%, transparent 100%);
+    background: transparent; // radial-gradient(circle, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.05) 70%, transparent 100%);
     transform: translate(-50%, -50%);
     transition: opacity 0.2s ease;
     opacity: 0;
