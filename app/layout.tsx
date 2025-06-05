@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { MouseParticles } from "@/components/mouse-particles"
+import { ClickParticles } from "@/components/click-particles"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,7 +16,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Trivio - Interactive Quiz Platform",
   description: "Challenge yourself with engaging quizzes across various categories",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -30,6 +31,7 @@ export default function RootLayout({
           {children}
           <Toaster />
           <MouseParticles />
+          <ClickParticles />
         </ThemeProvider>
       </body>
     </html>
