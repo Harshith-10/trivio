@@ -14,7 +14,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Trivio - Interactive Quiz Platform",
+  title: "Trivio",
   description: "Challenge yourself with engaging quizzes across various categories",
   generator: "v0.dev",
 }
